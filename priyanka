@@ -1,0 +1,43 @@
+pipeline {
+    agent any
+
+    stages {
+
+        stage('Deploy Q1') {
+            steps {
+                script {
+                    git branch: '2026-Q1', url: 'https://github.com/your-repo.git'
+
+                    sh 'docker build -t app-q1 .'
+                    sh 'docker rm -f container-q1 || true'
+                    sh 'docker run -d --name container-q1 --network myapp-network -p 8081:80 app-q1'
+                }
+            }
+        }
+
+        stage('Deploy Q2') {
+            steps {
+                script {
+                    git branch: '2026-Q2', url: 'https://github.com/your-repo.git'
+
+                    sh 'docker build -t app-q2 .'
+                    sh 'docker rm -f container-q2 || true'
+                    sh 'docker run -d --name container-q2 --network myapp-network -p 8082:80 app-q2'
+                }
+            }
+        }
+
+        stage('Deploy Q3') {
+            steps {
+                script {
+                    git branch: '2026-Q3', url: 'https://github.com/your-repo.git'
+
+                    sh 'docker build -t app-q3 .'
+                    sh 'docker rm -f container-q3 || true'
+                    sh 'docker run -d --name container-q3 --network myapp-network -p 8083:80 app-q3'
+                }
+            }
+        }
+
+    }
+}
